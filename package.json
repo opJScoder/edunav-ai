@@ -9,6 +9,7 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build:client": "npm run build --prefix client",
     "build": "npm run build:client",
+    "vercel-build": "npm install --prefix server && npm run prisma:generate --prefix server && npm install --prefix client && npm run build --prefix client",
     "prisma:generate": "npm run prisma:generate --prefix server",
     "prisma:seed": "npm run seed --prefix server"
   },
