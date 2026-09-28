@@ -1,0 +1,385 @@
+
+> pathforge-ai-backend@1.0.0 dev
+> nodemon server.js
+
+[33m[nodemon] 3.1.14[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+🚀 PATHFORGE AI API running on http://localhost:5000
+📚 API Documentation: http://localhost:5000/
+Error: PrismaClientValidationError: 
+Invalid `prisma.roadmap.create()` invocation in
+C:\Users\Lenovo\OneDrive\Documents\Default Project\server\src\controllers\roadmapController.js:32:44
+
+  29 const roadmapData = await aiService.generateRoadmap(skillGapData);
+  30 
+  31 // Create roadmap in database
+→ 32 const roadmap = await prisma.roadmap.create({
+       data: {
+         studentId: "7956e5f0-d35e-4fda-9bfd-c6fa9c131496",
+         careerId: "5013d660-61f8-4c4b-8f5c-e2dfc1502672",
+         title: "Civil Design Engineer Learning Roadmap",
+         description: "A personalized roadmap to become a Civil Design Engineer. Current readiness: 0%.",
+         readinessAtCreation: 0,
+         estimatedTotalHours: 445,
+         status: "not_started",
+         roadmapItems: {
+           create: [
+             {
+               title: "Master Engineering Drawing",
+               description: "Learn Engineering Drawing from level 0 to level 4. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 1,
+               estimatedHours: 80,
+               difficulty: "Advanced",
+               resources: [
+                 {
+                   title: "Engineering Drawing Official Documentation",
+                   url: "https://www.google.com/search?q=Engineering%20Drawing%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "Engineering Drawing Tutorial",
+                   url: "https://www.google.com/search?q=Engineering%20Drawing%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master MATLAB",
+               description: "Learn MATLAB from level 0 to level 2. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 2,
+               estimatedHours: 50,
+               difficulty: "Beginner",
+               resources: [
+                 {
+                   title: "MATLAB Official Documentation",
+                   url: "https://www.google.com/search?q=MATLAB%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "MATLAB Tutorial",
+                   url: "https://www.google.com/search?q=MATLAB%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master Problem Solving",
+               description: "Learn Problem Solving from level 0 to level 3. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 3,
+               estimatedHours: 65,
+               difficulty: "Intermediate",
+               resources: [
+                 {
+                   title: "Problem Solving Official Documentation",
+                   url: "https://www.google.com/search?q=Problem%20Solving%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "Problem Solving Tutorial",
+                   url: "https://www.google.com/search?q=Problem%20Solving%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master Communication",
+               description: "Learn Communication from level 0 to level 3. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 4,
+               estimatedHours: 65,
+               difficulty: "Intermediate",
+               resources: [
+                 {
+                   title: "Communication Official Documentation",
+                   url: "https://www.google.com/search?q=Communication%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "Communication Tutorial",
+                   url: "https://www.google.com/search?q=Communication%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master 3D Modeling",
+               description: "Learn 3D Modeling from level 0 to level 3. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 5,
+               estimatedHours: 65,
+               difficulty: "Intermediate",
+               resources: [
+                 {
+                   title: "3D Modeling Official Documentation",
+                   url: "https://www.google.com/search?q=3D%20Modeling%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "3D Modeling Tutorial",
+                   url: "https://www.google.com/search?q=3D%20Modeling%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master CAD",
+               description: "Learn CAD from level 0 to level 4. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 6,
+               estimatedHours: 80,
+               difficulty: "Advanced",
+               resources: [
+                 {
+                   title: "CAD Official Documentation",
+                   url: "https://www.google.com/search?q=CAD%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "CAD Tutorial",
+                   url: "https://www.google.com/search?q=CAD%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Build a Civil Design Engineer Portfolio Project",
+               description: "Apply all the skills you have learned by building a real-world project relevant to Civil Design Engineer.",
+               stepOrder: 7,
+               estimatedHours: 40,
+               difficulty: "Advanced",
+               resources: [
+                 {
+                   title: "Project Ideas",
+                   url: "https://github.com/topics/project-ideas",
+                   type: "documentation"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             }
+           ]
+         }
+       },
+       include: {
+         roadmapItems: {
+           orderBy: {
+             stepOrder: "asc"
+           }
+         },
+         career: {
+           select: {
+             id: true,
+             title: true
+           }
+         }
+       }
+     })
+
+Argument `resources`: Invalid value provided. Expected String or Null, provided (Object, Object).
+    at wn (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at $n.handleRequestError (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:121:6958)
+    at $n.handleAndLogRequestError (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async generate (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\src\controllers\roadmapController.js:32:23) {
+  clientVersion: '5.22.0'
+}
+Error: PrismaClientValidationError: 
+Invalid `prisma.roadmap.create()` invocation in
+C:\Users\Lenovo\OneDrive\Documents\Default Project\server\src\controllers\roadmapController.js:32:44
+
+  29 const roadmapData = await aiService.generateRoadmap(skillGapData);
+  30 
+  31 // Create roadmap in database
+→ 32 const roadmap = await prisma.roadmap.create({
+       data: {
+         studentId: "7956e5f0-d35e-4fda-9bfd-c6fa9c131496",
+         careerId: "5013d660-61f8-4c4b-8f5c-e2dfc1502672",
+         title: "Civil Design Engineer Learning Roadmap",
+         description: "A personalized roadmap to become a Civil Design Engineer. Current readiness: 0%.",
+         readinessAtCreation: 0,
+         estimatedTotalHours: 445,
+         status: "not_started",
+         roadmapItems: {
+           create: [
+             {
+               title: "Master Engineering Drawing",
+               description: "Learn Engineering Drawing from level 0 to level 4. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 1,
+               estimatedHours: 80,
+               difficulty: "Advanced",
+               resources: [
+                 {
+                   title: "Engineering Drawing Official Documentation",
+                   url: "https://www.google.com/search?q=Engineering%20Drawing%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "Engineering Drawing Tutorial",
+                   url: "https://www.google.com/search?q=Engineering%20Drawing%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master MATLAB",
+               description: "Learn MATLAB from level 0 to level 2. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 2,
+               estimatedHours: 50,
+               difficulty: "Beginner",
+               resources: [
+                 {
+                   title: "MATLAB Official Documentation",
+                   url: "https://www.google.com/search?q=MATLAB%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "MATLAB Tutorial",
+                   url: "https://www.google.com/search?q=MATLAB%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master Problem Solving",
+               description: "Learn Problem Solving from level 0 to level 3. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 3,
+               estimatedHours: 65,
+               difficulty: "Intermediate",
+               resources: [
+                 {
+                   title: "Problem Solving Official Documentation",
+                   url: "https://www.google.com/search?q=Problem%20Solving%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "Problem Solving Tutorial",
+                   url: "https://www.google.com/search?q=Problem%20Solving%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master Communication",
+               description: "Learn Communication from level 0 to level 3. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 4,
+               estimatedHours: 65,
+               difficulty: "Intermediate",
+               resources: [
+                 {
+                   title: "Communication Official Documentation",
+                   url: "https://www.google.com/search?q=Communication%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "Communication Tutorial",
+                   url: "https://www.google.com/search?q=Communication%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master 3D Modeling",
+               description: "Learn 3D Modeling from level 0 to level 3. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 5,
+               estimatedHours: 65,
+               difficulty: "Intermediate",
+               resources: [
+                 {
+                   title: "3D Modeling Official Documentation",
+                   url: "https://www.google.com/search?q=3D%20Modeling%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "3D Modeling Tutorial",
+                   url: "https://www.google.com/search?q=3D%20Modeling%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Master CAD",
+               description: "Learn CAD from level 0 to level 4. This is a HIGH priority skill for Civil Design Engineer.",
+               stepOrder: 6,
+               estimatedHours: 80,
+               difficulty: "Advanced",
+               resources: [
+                 {
+                   title: "CAD Official Documentation",
+                   url: "https://www.google.com/search?q=CAD%20documentation",
+                   type: "documentation"
+                 },
+                 {
+                   title: "CAD Tutorial",
+                   url: "https://www.google.com/search?q=CAD%20tutorial",
+                   type: "tutorial"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             },
+             {
+               title: "Build a Civil Design Engineer Portfolio Project",
+               description: "Apply all the skills you have learned by building a real-world project relevant to Civil Design Engineer.",
+               stepOrder: 7,
+               estimatedHours: 40,
+               difficulty: "Advanced",
+               resources: [
+                 {
+                   title: "Project Ideas",
+                   url: "https://github.com/topics/project-ideas",
+                   type: "documentation"
+                 }
+               ],
+               status: "not_started",
+               progressPercentage: 0
+             }
+           ]
+         }
+       },
+       include: {
+         roadmapItems: {
+           orderBy: {
+             stepOrder: "asc"
+           }
+         },
+         career: {
+           select: {
+             id: true,
+             title: true
+           }
+         }
+       }
+     })
+
+Argument `resources`: Invalid value provided. Expected String or Null, provided (Object, Object).
+    at wn (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at $n.handleRequestError (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:121:6958)
+    at $n.handleAndLogRequestError (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async generate (C:\Users\Lenovo\OneDrive\Documents\Default Project\server\src\controllers\roadmapController.js:32:23) {
+  clientVersion: '5.22.0'
+}

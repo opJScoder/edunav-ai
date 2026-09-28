@@ -1,0 +1,246 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── USERS ───────────────────────────────────────────────
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         String   @default("student") // student | admin
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  studentProfile    StudentProfile?
+  studentSkills     StudentSkill[]
+  roadmaps          Roadmap[]
+  recommendations   Recommendation[]
+  semesterGoals     SemesterGoal[]
+  progressSnapshots ProgressSnapshot[]
+
+  @@map("users")
+}
+
+// ─── STUDENT PROFILES ────────────────────────────────────
+model StudentProfile {
+  id                String   @id @default(uuid())
+  userId            String   @unique @map("user_id")
+  branch            String
+  semester          Int
+  college           String
+  careerGoalId      String?  @map("career_goal_id")
+  studyHoursPerWeek Int?     @map("study_hours_per_week")
+  bio               String?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  careerGoal Career? @relation(fields: [careerGoalId], references: [id], onDelete: SetNull)
+
+  @@map("student_profiles")
+}
+
+// ─── SKILLS ──────────────────────────────────────────────
+model Skill {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  category    String
+  description String?
+  difficulty  String // Beginner | Intermediate | Advanced
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  studentSkills  StudentSkill[]
+  careerSkills   CareerSkill[]
+  roadmapItems   RoadmapItem[]
+  projectSkills ProjectSkill[]
+
+  @@map("skills")
+}
+
+// ─── CAREERS ─────────────────────────────────────────────
+model Career {
+  id                  String   @id @default(uuid())
+  title               String   @unique
+  description         String?
+  category            String
+  difficulty          String // Beginner | Intermediate | Advanced
+  averageLearningHours Int     @map("average_learning_hours")
+  requiredEducation   String   @map("required_education")
+  isActive            Boolean  @default(true) @map("is_active")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  careerSkills    CareerSkill[]
+  roadmaps        Roadmap[]
+  studentProfiles StudentProfile[]
+
+  @@map("careers")
+}
+
+// ─── CAREER SKILLS (junction) ────────────────────────────
+model CareerSkill {
+  id            String  @id @default(uuid())
+  careerId      String  @map("career_id")
+  skillId       String  @map("skill_id")
+  weight        Float   @default(0.5)
+  requiredLevel Int     @map("required_level") // 1-5
+  importance    String // HIGH | MEDIUM | LOW
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  career Career @relation(fields: [careerId], references: [id], onDelete: Cascade)
+  skill  Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([careerId, skillId])
+  @@map("career_skills")
+}
+
+// ─── STUDENT SKILLS (junction) ───────────────────────────
+model StudentSkill {
+  id        String   @id @default(uuid())
+  studentId String   @map("student_id")
+  skillId   String   @map("skill_id")
+  level     Int // 1=Beginner 2=Basic 3=Intermediate 4=Advanced 5=Expert
+  createdAt DateTime @default(now()) @map("created_at")
+
+  student User  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  skill   Skill @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, skillId])
+  @@map("student_skills")
+}
+
+// ─── ROADMAPS ────────────────────────────────────────────
+model Roadmap {
+  id                  String    @id @default(uuid())
+  studentId           String    @map("student_id")
+  careerId            String    @map("career_id")
+  title               String
+  description         String?
+  readinessAtCreation Float?    @map("readiness_at_creation")
+  estimatedTotalHours Int?      @map("estimated_total_hours")
+  status              String    @default("not_started") // not_started | in_progress | completed
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  student      User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  career       Career       @relation(fields: [careerId], references: [id], onDelete: Cascade)
+  roadmapItems RoadmapItem[]
+
+  @@map("roadmaps")
+}
+
+// ─── ROADMAP ITEMS ───────────────────────────────────────
+model RoadmapItem {
+  id                 String    @id @default(uuid())
+  roadmapId          String    @map("roadmap_id")
+  skillId            String?   @map("skill_id")
+  title              String
+  description        String?
+  stepOrder          Int       @map("step_order")
+  estimatedHours     Int       @map("estimated_hours")
+  difficulty         String // Beginner | Intermediate | Advanced
+  resources          String?   // JSON string: [{title, url, type}]
+  status             String    @default("not_started") // not_started | in_progress | completed
+  progressPercentage Int       @default(0) @map("progress_percentage")
+  completedAt        DateTime? @map("completed_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  roadmap Roadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  skill   Skill?  @relation(fields: [skillId], references: [id], onDelete: SetNull)
+
+  @@map("roadmap_items")
+}
+
+// ─── PROJECTS ────────────────────────────────────────────
+model Project {
+  id                  String   @id @default(uuid())
+  title               String
+  description         String?
+  difficulty          String // Beginner | Intermediate | Advanced
+  estimatedHours      Int      @map("estimated_hours")
+  technologies        String   @default("[]") // JSON string array
+  features            String   @default("[]") // JSON string array
+  branchCompatibility String   @default("[]") @map("branch_compatibility") // JSON string array
+  githubTemplateUrl   String?  @map("github_template_url")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  projectSkills  ProjectSkill[]
+  recommendations Recommendation[]
+
+  @@map("projects")
+}
+
+// ─── PROJECT SKILLS (junction) ───────────────────────────
+model ProjectSkill {
+  id        String @id @default(uuid())
+  projectId String @map("project_id")
+  skillId   String @map("skill_id")
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  skill   Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, skillId])
+  @@map("project_skills")
+}
+
+// ─── RECOMMENDATIONS ─────────────────────────────────────
+model Recommendation {
+  id              String   @id @default(uuid())
+  studentId       String   @map("student_id")
+  projectId       String   @map("project_id")
+  reason          String
+  matchedSkills   String   @default("[]") @map("matched_skills") // JSON string array
+  matchPercentage Float    @default(0) @map("match_percentage")
+  priority        String // high | medium | low
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  student User    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("recommendations")
+}
+
+// ─── SEMESTER GOALS ──────────────────────────────────────
+model SemesterGoal {
+  id                 String   @id @default(uuid())
+  studentId          String   @map("student_id")
+  title              String
+  description        String?
+  semester           Int
+  targetDate         DateTime @map("target_date")
+  progressPercentage Int      @default(0) @map("progress_percentage")
+  status             String   @default("not_started") // not_started | in_progress | completed
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("semester_goals")
+}
+
+// ─── PROGRESS SNAPSHOTS ──────────────────────────────────
+model ProgressSnapshot {
+  id                    String   @id @default(uuid())
+  studentId             String   @map("student_id")
+  date                  DateTime @default(now())
+  studyHours            Float    @default(0) @map("study_hours")
+  completedRoadmapItems Int      @default(0) @map("completed_roadmap_items")
+  completedProjects     Int      @default(0) @map("completed_projects")
+  readinessPercentage   Float    @default(0) @map("readiness_percentage")
+  skillsImproved        String   @default("[]") @map("skills_improved") // JSON string array
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("progress_snapshots")
+}
